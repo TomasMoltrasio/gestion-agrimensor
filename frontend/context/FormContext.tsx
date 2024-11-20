@@ -1,6 +1,6 @@
 // context/FormContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { Proyecto as Project } from "@tipos/index";
+import { Proyecto as Project, ProyectoTable } from "@tipos/index";
 import { URL_BASE } from "@utils/api";
 
 interface FormContextType {
@@ -18,7 +18,7 @@ interface FormContextType {
   updateEstado: (value: string, id: string) => void;
   deleteComitente: (index: number) => void;
   loadAllProjects: () => Promise<void>;
-  Projects: Project[];
+  Projects: ProyectoTable[];
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
@@ -27,7 +27,7 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [formData, setFormData] = useState<Project | null>(null);
-  const [Projects, setProjects] = useState<Project[]>([]); // Agregar el estado para almacenar los proyectos
+  const [Projects, setProjects] = useState<ProyectoTable[]>([]); // Agregar el estado para almacenar los proyectos
   const [initialData, setInitialData] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
@@ -52,7 +52,7 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
       if (!response.ok) {
         throw new Error("Error al cargar los proyectos");
       }
-      const data: Project[] = await response.json();
+      const data: ProyectoTable[] = await response.json();
       setProjects(data);
     } catch (error) {
       console.error("Error cargando los proyectos:", error);

@@ -25,7 +25,7 @@ import { ChevronDownIcon } from "@icons/ChevronDownIcon";
 import { SearchIcon } from "@icons/SearchIcon";
 import { AppleIcon } from "@icons/AppleIcon";
 import Link from "next/link";
-import { columns, projects, statusOptions } from "@utils/data";
+import { columns, statusOptions } from "@utils/data";
 import { capitalize } from "@utils/utils";
 import { Key } from "@react-types/shared";
 import { EyeIcon } from "./icons/EyeIcon";
@@ -37,8 +37,7 @@ import {
   priorityOptions,
   INITIAL_VISIBLE_COLUMNS,
 } from "@utils/table";
-
-type Project = (typeof projects)[0];
+import { ProyectoTable } from "@tipos/index";
 
 export default function TableComponent() {
   const [filterValue, setFilterValue] = React.useState("");
@@ -52,7 +51,7 @@ export default function TableComponent() {
   const [statusFilter, setStatusFilter] = React.useState<Selection>(
     new Set(["en curso"])
   );
-  const [rowsPerPage, setRowsPerPage] = React.useState(projects?.length || 5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(Projects?.length || 5);
   React.useEffect(() => {
     loadAllProjects();
     const storedRowsPerPage = localStorage.getItem("rowsPerPage");
@@ -78,13 +77,13 @@ export default function TableComponent() {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredProjects = [...projects];
+    let filteredProjects = [...Projects];
 
     if (hasSearchFilter) {
       filteredProjects = filteredProjects.filter(
         (user) =>
-          user.nombre.toLowerCase().includes(filterValue.toLowerCase()) ||
-          user.partida.toString().includes(filterValue)
+          user.nombre?.toLowerCase().includes(filterValue.toLowerCase()) ||
+          user.partida?.toString().includes(filterValue)
       );
     }
     if (
@@ -97,7 +96,7 @@ export default function TableComponent() {
     }
 
     return filteredProjects;
-  }, [projects, filterValue, statusFilter]);
+  }, [Projects, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -109,9 +108,9 @@ export default function TableComponent() {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: Project, b: Project) => {
-      const first = a[sortDescriptor.column as keyof Project] as number;
-      const second = b[sortDescriptor.column as keyof Project] as number;
+    return [...items].sort((a: ProyectoTable, b: ProyectoTable) => {
+      const first = a[sortDescriptor.column as keyof ProyectoTable] as number;
+      const second = b[sortDescriptor.column as keyof ProyectoTable] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -119,8 +118,19 @@ export default function TableComponent() {
   }, [sortDescriptor, items]);
 
   const renderCell = React.useCallback(
-    (user: Project, columnKey: React.Key) => {
-      const cellValue = user[columnKey as keyof Project];
+    (user: ProyectoTable, columnKey: React.Key) => {
+      const cellValue = user[columnKey as keyof ProyectoTable];
+
+      if (
+        (cellValue === undefined &&
+          columnKey !== "acciones" &&
+          columnKey !== "icloud") ||
+        (columnKey === "icloud" && !user.archivosIcloud) ||
+        (cellValue !== null &&
+          typeof cellValue === "object" &&
+          Object.keys(cellValue).length === 0)
+      )
+        return "";
 
       switch (columnKey) {
         case "icloud":
@@ -134,12 +144,6 @@ export default function TableComponent() {
               <AppleIcon />
             </a>
           );
-
-        case "fecha":
-          return typeof cellValue === "string" || typeof cellValue === "number"
-            ? new Date(cellValue).toLocaleDateString("es-AR")
-            : "";
-
         case "prioridad":
           return (
             <Chip
@@ -232,7 +236,7 @@ export default function TableComponent() {
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Buscar..."
+            placeholder="Buscar por nombre o partida..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
@@ -312,7 +316,7 @@ export default function TableComponent() {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {projects.length} proyectos
+            Total {Projects.length} proyectos
           </span>
           <label className="flex items-center text-default-400 text-small">
             Proyectos por página:
@@ -324,7 +328,7 @@ export default function TableComponent() {
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
-              <option value={projects.length}>Todos</option>
+              <option value={Projects.length}>Todos</option>
             </select>
           </label>
         </div>
@@ -336,7 +340,7 @@ export default function TableComponent() {
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    projects.length,
+    Projects.length,
     hasSearchFilter,
   ]);
 
@@ -389,10 +393,12 @@ export default function TableComponent() {
         )}
       </TableHeader>
       <TableBody
-        emptyContent={"No hay proyectos disponibles"}
+        emptyContent={
+          isLoading ? "Cargando proyectos..." : "No se encontraron proyectos"
+        }
         items={sortedItems}
       >
-        {(item) => (
+        {(item: ProyectoTable) => (
           <TableRow key={item.id}>
             {(columnKey) => (
               <TableCell>{renderCell(item, columnKey)}</TableCell>

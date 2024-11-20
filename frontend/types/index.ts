@@ -23,6 +23,7 @@ export type ProyectoTable = {
 };
 
 export type Proyecto = {
+  partida: any;
   id: number;
   nombre: string;
   direccion: string;
