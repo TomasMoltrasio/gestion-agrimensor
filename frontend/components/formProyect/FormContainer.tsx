@@ -4,10 +4,11 @@ import FormDatosCatastrales from "@components/formProyect/FormDatosCatastrales";
 import FormDatosComitentes from "@components/formProyect/FormDatosComitentes";
 import FormDatosObservaciones from "@components/formProyect/FormDatosObservaciones";
 import FormDatosProyecto from "@components/formProyect/FormDatosProyecto";
-import BtnReset from "./BtnReset";
-import BtnSave from "./BtnSave";
+import BtnReset from "@components/formProyect/BtnReset";
+import BtnSave from "@components/formProyect/BtnSave";
 import { useForm } from "@context/FormContext";
 import { useEffect } from "react";
+import FormContainerSkeleton from "@components/formProyect/FormContainerSkeleton";
 
 export default function FormContainer({ id }: { id?: string }) {
   const { loadProject, isLoading, resetFormData, formData } = useForm();
@@ -28,7 +29,7 @@ export default function FormContainer({ id }: { id?: string }) {
       className="mt-4 w-full flex flex-col gap-y-8"
     >
       {isLoading ? (
-        <p>Cargando...</p>
+        <FormContainerSkeleton />
       ) : (
         <>
           <FormDatosProyecto />

@@ -73,7 +73,7 @@ export default function FormDatosCatastrales() {
         required
         className="col-span-2"
         defaultInputValue={
-          formData?.datosCatastrales.partido
+          formData?.datosCatastrales?.partido
             ? partidos.find((p) => p.id === formData.datosCatastrales.partido)
                 ?.name
             : ""
