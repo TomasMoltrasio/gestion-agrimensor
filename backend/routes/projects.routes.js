@@ -1,0 +1,90 @@
+import express from "express";
+import { body, param } from "express-validator";
+import {
+  getProyectos,
+  getProyecto,
+  createProyecto,
+  updateProyecto,
+} from "../controllers/projects.controller.js";
+
+const router = express.Router();
+
+// Rutas y validaciones
+
+// GET: Obtener todos los proyectos
+router.get("/", getProyectos);
+
+// GET: Obtener un proyecto por ID
+router.get(
+  "/:id",
+  [
+    param("id")
+      .isInt({ min: 1 })
+      .withMessage("El ID debe ser un número entero positivo."),
+  ],
+  getProyecto
+);
+
+// POST: Crear un nuevo proyecto
+router.post(
+  "/",
+  [
+    body("nombre")
+      .isString()
+      .withMessage("El nombre es obligatorio y debe ser una cadena de texto."),
+    body("direccion")
+      .optional()
+      .isString()
+      .withMessage("La dirección debe ser una cadena de texto."),
+    body("tipoTrabajo")
+      .optional()
+      .isString()
+      .withMessage("El tipo de trabajo debe ser una cadena de texto."),
+    body("profesional")
+      .optional()
+      .isIn(["Tomás Portales", "Juan Perez"])
+      .withMessage('El profesional debe ser "Tomás Portales" o "Juan Perez".'),
+    body("prioridad")
+      .optional()
+      .isInt({ min: 1, max: 3 })
+      .withMessage("La prioridad debe ser un valor entre 1 y 3."),
+    body("presupuesto.total")
+      .optional()
+      .isFloat({ min: 0 })
+      .withMessage("El presupuesto total debe ser un número positivo."),
+    body("presupuesto.moneda")
+      .optional()
+      .isIn(["USD", "ARS"])
+      .withMessage('La moneda debe ser "USD" o "ARS".'),
+  ],
+  createProyecto
+);
+
+// PUT: Actualizar un proyecto existente por ID
+router.put(
+  "/:id",
+  [
+    param("id")
+      .isInt({ min: 1 })
+      .withMessage("El ID debe ser un número entero positivo."),
+    body("nombre")
+      .optional()
+      .isString()
+      .withMessage("El nombre debe ser una cadena de texto."),
+    body("direccion")
+      .optional()
+      .isString()
+      .withMessage("La dirección debe ser una cadena de texto."),
+    body("tipoTrabajo")
+      .optional()
+      .isString()
+      .withMessage("El tipo de trabajo debe ser una cadena de texto."),
+    body("prioridad")
+      .optional()
+      .isInt({ min: 1, max: 3 })
+      .withMessage("La prioridad debe ser un valor entre 1 y 3."),
+  ],
+  updateProyecto
+);
+
+export default router;
