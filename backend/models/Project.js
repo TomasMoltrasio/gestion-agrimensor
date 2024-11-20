@@ -90,4 +90,12 @@ ProyectoSchema.pre("save", async function (next) {
   next();
 });
 
+// Middleware para establecer la moneda por defecto a "USD"
+ProyectoSchema.pre("save", function (next) {
+  if (this.presupuesto && this.presupuesto.total && !this.presupuesto.moneda) {
+    this.presupuesto.moneda = "USD";
+  }
+  next();
+});
+
 export default mongoose.model("Proyecto", ProyectoSchema);

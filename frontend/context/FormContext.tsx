@@ -211,7 +211,7 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
   const deleteComitente = (index: number): void => {
     setFormData((prev: any) => {
       if (!prev) return;
-      const updatedArray = prev.datosComitentes.filter(
+      const updatedArray = prev.datosComitentes?.filter(
         (_: any, i: number) => i !== index
       );
       return {
