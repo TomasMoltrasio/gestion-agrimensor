@@ -1,7 +1,9 @@
 // context/FormContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { Proyecto as Project, ProyectoTable } from "@tipos/index";
 import { URL_BASE } from "@utils/api";
+import Swal from "sweetalert2";
 
 interface FormContextType {
   formData: Project | null;
@@ -31,6 +33,7 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
   const [initialData, setInitialData] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const router = useRouter();
 
   const isModified = JSON.stringify(formData) !== JSON.stringify(initialData);
 
@@ -80,7 +83,13 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
 
   const saveProject = async (projectId?: string): Promise<void> => {
     if (!validateForm()) {
-      alert("Por favor completa todos los campos obligatorios");
+      // alert("Por favor completa todos los campos obligatorios");
+      Swal.fire({
+        title: "¡Atención!",
+        text: "Por favor completa todos los campos obligatorios",
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
       return;
     }
     setIsLoading(true);
@@ -101,19 +110,45 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
       if (!response.ok) {
         throw new Error("Error al guardar el proyecto");
       }
-      alert("Proyecto guardado exitosamente");
-      setInitialData(formData); // Actualizar estado inicial al guardar
+      // alert("Proyecto guardado exitosamente");
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "Proyecto guardado exitosamente",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      }).then(() => {
+        setInitialData(formData); // Actualizar estado inicial al guardar
+        router.push("/");
+      });
     } catch (error) {
       console.error("Error guardando el proyecto:", error);
-      alert("Hubo un error al guardar el proyecto");
+      // alert("Hubo un error al guardar el proyecto");
+      Swal.fire({
+        title: "¡Error!",
+        text: "Hubo un error al guardar el proyecto",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   const resetForm = (): void => {
-    setFormData(initialData); // Restaurar el estado inicial
-    setValidationErrors([]); // Limpiar errores de validación
+    Swal.fire({
+      title: "¡Atención!",
+      text: "¿Estás seguro que deseas resetear el formulario?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setFormData(initialData); // Restaurar el estado inicial
+        setValidationErrors([]); // Limpiar errores de validación
+      }
+    });
   };
 
   const resetFormData = (): void => {
@@ -170,7 +205,13 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
   const updateEstado = (value: string, id: string): void => {
     updateField("estado", value);
     if (!validateForm()) {
-      alert("Por favor completa todos los campos obligatorios");
+      // alert("Por favor completa todos los campos obligatorios");
+      Swal.fire({
+        title: "¡Atención!",
+        text: "Por favor completa todos los campos obligatorios",
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
       return;
     }
     setIsLoading(true);
@@ -196,12 +237,24 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
         if (!response.ok) {
           throw new Error("Error al guardar el proyecto");
         }
-        alert("Estado del proyecto actualizado exitosamente");
+        // alert("Estado del proyecto actualizado exitosamente");
+        Swal.fire({
+          title: "¡Éxito!",
+          text: "Estado del proyecto actualizado exitosamente",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
         setInitialData(formData); // Actualizar estado inicial al guardar
       })
       .catch((error) => {
         console.error("Error guardando el proyecto:", error);
-        alert("Hubo un error al guardar el proyecto");
+        // alert("Hubo un error al guardar el proyecto");
+        Swal.fire({
+          title: "¡Error!",
+          text: "Hubo un error al guardar el proyecto",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       })
       .finally(() => {
         setIsLoading(false);
