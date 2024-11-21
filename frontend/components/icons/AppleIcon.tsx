@@ -7,11 +7,11 @@ export const AppleIcon = ({ strokeWidth = 1.5, ...otherProps }) => (
     id="Capa_1"
     viewBox="0 0 22.773 22.773"
   >
-    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
     <g
       id="SVGRepo_tracerCarrier"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     ></g>
     <g id="SVGRepo_iconCarrier">
       {" "}
