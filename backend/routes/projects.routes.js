@@ -5,6 +5,7 @@ import {
   getProyecto,
   createProyecto,
   updateProyecto,
+  getFechasAviso,
 } from "../controllers/projects.controller.js";
 
 const router = express.Router();
@@ -13,6 +14,9 @@ const router = express.Router();
 
 // GET: Obtener todos los proyectos
 router.get("/", getProyectos);
+
+// GET: Obtener todas las fechas de aviso de todos los proyectos
+router.get("/fechas", getFechasAviso);
 
 // GET: Obtener un proyecto por ID
 router.get(
