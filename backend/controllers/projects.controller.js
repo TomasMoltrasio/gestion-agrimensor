@@ -124,12 +124,18 @@ export const getFechasAviso = async (req, res) => {
       return res.status(404).json({ message: "No hay proyectos." });
     }
 
+    const fechaHoy = new Date(); // Fecha actual
+
     const fechasAviso = proyectos
       .map((proyecto) => {
         const fechas = {};
         Object.keys(proyecto._doc).forEach((key) => {
           if (key !== "id" && proyecto._doc[key]?.fechaAviso) {
-            fechas[key] = formatearFecha(proyecto._doc[key].fechaAviso);
+            const fechaAviso = new Date(proyecto._doc[key].fechaAviso);
+            if (fechaAviso >= fechaHoy) {
+              // Filtrar fechas mayores o iguales a hoy
+              fechas[key] = formatearFecha(proyecto._doc[key].fechaAviso);
+            }
           }
         });
         if (Object.keys(fechas).length > 0) {
