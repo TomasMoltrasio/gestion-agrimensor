@@ -7,3 +7,11 @@ export const getProjects = async () => {
   }
   return response.json();
 };
+
+export const getFechas = async () => {
+  const response = await fetch(`${URL_BASE}/fechas`);
+  if (!response.ok) {
+    throw new Error("Error al cargar las fechas");
+  }
+  return response.json();
+};
