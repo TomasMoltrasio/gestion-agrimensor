@@ -3,7 +3,7 @@
 import { useForm } from "@context/FormContext";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 type Comitente = {
   nombre: string;
@@ -53,11 +53,13 @@ export default function FormDatosComitentes() {
         <h3 className="text-lg font-semibold">Datos de los Comitentes</h3>
       </div>
       {Array.from({ length: cantComitentes }).map((_, index) => (
-        <>
+        <Fragment key={`${index}-fragment`}>
           {comitentes.map(({ label, value }) => (
             <Input
+              key={`${index}-${value}-${label}`}
               label={label}
               labelPlacement="inside"
+              isDisabled={formData?.estado === "completado"}
               required
               value={
                 (formData?.datosComitentes &&
@@ -72,19 +74,20 @@ export default function FormDatosComitentes() {
               }
             />
           ))}
-        </>
+        </Fragment>
       ))}
       <div className="col-start-4 flex items-center justify-end gap-x-4">
         <Button
           color="danger"
           variant="ghost"
           onClick={onDelete}
-          disabled={cantComitentes === 1}
+          isDisabled={cantComitentes === 1 || formData?.estado === "completado"}
           className={cantComitentes === 1 ? "hidden" : ""}
         >
           Quitar comitente
         </Button>
         <Button
+          isDisabled={formData?.estado === "completado"}
           color="primary"
           onClick={() => setCantComitentes(cantComitentes + 1)}
         >

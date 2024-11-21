@@ -20,11 +20,15 @@ export default function FormDatosObservaciones() {
         <h3 className="text-lg font-semibold">Seguimiento del Proyecto</h3>
       </div>
       {observaciones.map(({ value, label }) => (
-        <div key={value} className="grid grid-cols-4 gap-4 items-center">
+        <div
+          key={`${value}-datosObservaciones`}
+          className="grid grid-cols-4 gap-4 items-center"
+        >
           <span className="text-base font-medium">{label}</span>
           <I18nProvider locale="es-AR">
             <DatePicker
               label="Fecha de Inicio"
+              isDisabled={formData?.estado === "completado"}
               value={
                 formData?.[value as keyof ProyectoObservaciones]?.fechaInicio
                   ? parseDate(
@@ -41,6 +45,7 @@ export default function FormDatosObservaciones() {
           <I18nProvider locale="es-AR">
             <DatePicker
               label="Fecha de Aviso"
+              isDisabled={formData?.estado === "completado"}
               value={
                 formData?.[value as keyof ProyectoObservaciones]?.fechaAviso
                   ? parseDate(
@@ -57,6 +62,7 @@ export default function FormDatosObservaciones() {
           <Textarea
             label="Observaciones"
             minRows={1}
+            isDisabled={formData?.estado === "completado"}
             value={
               (formData?.[value as keyof ProyectoObservaciones] as any)
                 ?.observaciones || ""

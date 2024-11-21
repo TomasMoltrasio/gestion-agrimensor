@@ -42,6 +42,7 @@ export default function FormDatosProyecto() {
         required
         value={formData?.nombre || ""}
         onChange={(e) => onUpdate(e.target.value, "nombre")}
+        isDisabled={formData?.estado === "completado"}
       />
       <Input
         label="Dirección"
@@ -49,10 +50,12 @@ export default function FormDatosProyecto() {
         required
         value={formData?.direccion || ""}
         onChange={(e) => onUpdate(e.target.value, "direccion")}
+        isDisabled={formData?.estado === "completado"}
       />
       <Select
         label="Profesional"
         labelPlacement="inside"
+        isDisabled={formData?.estado === "completado"}
         required
         defaultSelectedKeys={
           formData?.profesional && [`${formData?.profesional}`]
@@ -68,6 +71,7 @@ export default function FormDatosProyecto() {
       </Select>
       <Select
         label="Tipo de Trabajo"
+        isDisabled={formData?.estado === "completado"}
         labelPlacement="inside"
         defaultSelectedKeys={
           formData?.tipoTrabajo && [`${formData?.tipoTrabajo}`]
@@ -84,6 +88,7 @@ export default function FormDatosProyecto() {
       <div className="grid grid-cols-2 gap-4">
         <Select
           label="Prioridad"
+          isDisabled={formData?.estado === "completado"}
           labelPlacement="inside"
           required
           defaultSelectedKeys={
@@ -101,6 +106,7 @@ export default function FormDatosProyecto() {
         <Input
           label="Presupuesto"
           placeholder="0.00"
+          isDisabled={formData?.estado === "completado"}
           labelPlacement="inside"
           startContent={
             <div className="pointer-events-none flex items-center">
@@ -131,6 +137,7 @@ export default function FormDatosProyecto() {
       </div>
       <Input
         label="Archivos iCloud"
+        isDisabled={formData?.estado === "completado"}
         labelPlacement="inside"
         value={formData?.archivosIcloud || ""}
         onChange={(e) => onUpdate(e.target.value, "archivosIcloud")}

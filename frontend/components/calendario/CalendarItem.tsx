@@ -35,7 +35,10 @@ export default function CalendarItem({
       {dateEntry.events?.length > 0 ? (
         <ul className="flex flex-col gap-y-1 mt-4">
           {dateEntry.events.map((event: any, index: any) => (
-            <li className="flex items-center gap-x-2">
+            <li
+              key={`${event.name}-${event.id}-${index}`}
+              className="flex items-center gap-x-2"
+            >
               <Link
                 className="flex items-center gap-x-2 group"
                 href={`/proyectos/${event.id}`}

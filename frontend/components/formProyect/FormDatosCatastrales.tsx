@@ -72,6 +72,7 @@ export default function FormDatosCatastrales() {
         defaultItems={partidos}
         required
         className="col-span-2"
+        isDisabled={formData?.estado === "completado"}
         defaultInputValue={
           formData?.datosCatastrales?.partido
             ? partidos.find((p) => p.id === formData.datosCatastrales.partido)
@@ -93,9 +94,11 @@ export default function FormDatosCatastrales() {
       </Autocomplete>
       {data.map((item) => (
         <Input
+          key={`${item.value} - datosCatastrales`}
           className="col-span-2"
           label={item.label}
           required={item.label === "Partida"}
+          isDisabled={formData?.estado === "completado"}
           value={
             formData?.datosCatastrales
               ? formData.datosCatastrales[item.value]
