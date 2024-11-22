@@ -46,8 +46,10 @@ router.post(
       .withMessage("El tipo de trabajo debe ser una cadena de texto."),
     body("profesional")
       .optional()
-      .isIn(["Tomás Portales", "Juan Perez"])
-      .withMessage('El profesional debe ser "Tomás Portales" o "Juan Perez".'),
+      .isIn(["Tomás Portales", "Mariana López"])
+      .withMessage(
+        'El profesional debe ser "Tomás Portales" o "Mariana López".'
+      ),
     body("prioridad")
       .optional()
       .isInt({ min: 1, max: 3 })

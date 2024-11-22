@@ -15,7 +15,7 @@ const ProyectoSchema = new Schema(
     nombre: { type: String },
     direccion: { type: String },
     tipoTrabajo: { type: String },
-    profesional: { type: String, enum: ["Tomás Portales", "Juan Perez"] },
+    profesional: { type: String, enum: ["Tomás Portales", "Mariana López"] },
     prioridad: { type: Number, enum: [1, 2, 3] },
     archivosIcloud: { type: String },
     estado: {
@@ -45,6 +45,13 @@ const ProyectoSchema = new Schema(
         cuit: { type: String },
         direccion: { type: String },
         contacto: { type: String },
+      },
+    ],
+    pagos: [
+      {
+        fecha: { type: String },
+        monto: { type: String },
+        moneda: { type: String, enum: ["USD", "ARS"], default: "USD" },
       },
     ],
     antecendenteCatastral: EtapaSchema,
@@ -95,6 +102,17 @@ ProyectoSchema.pre("save", function (next) {
   if (this.presupuesto && this.presupuesto.total && !this.presupuesto.moneda) {
     this.presupuesto.moneda = "USD";
   }
+  next();
+});
+
+// Middleware para establecer la moneda por defecto a "USD" en pagos
+ProyectoSchema.pre("save", function (next) {
+  this.pagos = this.pagos.map((pago) => {
+    if (pago.monto && !pago.moneda) {
+      pago.moneda = "USD";
+    }
+    return pago;
+  });
   next();
 });
 
