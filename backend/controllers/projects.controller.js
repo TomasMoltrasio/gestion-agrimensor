@@ -1,4 +1,5 @@
 import { validationResult } from "express-validator";
+import PDFDocument from "pdfkit";
 import Proyecto from "../models/Project.js";
 
 const formatearFecha = (fechaISO) => {
@@ -17,6 +18,100 @@ const formatearFecha = (fechaISO) => {
   const fechafinal = fecha.toLocaleDateString("es-AR", opciones);
 
   return fechafinal;
+};
+
+// Generar un PDF con los datos de un proyecto
+
+export const generatePDF = async (req, res) => {
+  try {
+    const proyecto = await Proyecto.findOne({ id: req.params.id });
+    if (!proyecto) {
+      return res.status(404).json({ message: "Proyecto no encontrado." });
+    }
+
+    // Configurar las cabeceras
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${proyecto.nombre}.pdf"`
+    );
+
+    // Crear y enviar el PDF
+    const doc = new PDFDocument({ margin: 50 });
+    doc.pipe(res);
+
+    // Estilos generales
+    const primaryColor = "black";
+    const secondaryColor = "#808080"; // Gris
+
+    // Encabezado
+    doc
+      .fontSize(22)
+      .fillColor(primaryColor)
+      .text(`Proyecto: ${proyecto.nombre}`, {
+        align: "center",
+      });
+    doc.moveDown(1);
+
+    // Sección: Datos del proyecto
+    doc.fontSize(18).fillColor(primaryColor).text("Datos del Proyecto");
+    doc
+      .moveDown(0.5)
+      .fontSize(14)
+      .fillColor("black")
+      .text(`Tipo de trabajo: ${proyecto.tipoTrabajo}`)
+      .moveDown(0.2)
+      .text(`Dirección: ${proyecto.direccion}`);
+
+    doc
+      .moveDown(0.5)
+      .fontSize(14)
+      .fillColor(secondaryColor)
+      .text(`Partido: ${proyecto.datosCatastrales.partido}`)
+      .moveDown(0.2)
+      .text(`Partida: ${proyecto.datosCatastrales.partida}`);
+    doc.moveDown(1);
+
+    // Línea divisoria
+    doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke(primaryColor);
+
+    // Sección: Datos del propietario
+    doc.moveDown(1);
+    doc.fontSize(18).fillColor(primaryColor).text("Datos del Propietario");
+    doc
+      .moveDown(0.5)
+      .fontSize(14)
+      .fillColor("black")
+      .text(
+        `Nombre: ${
+          proyecto.datosComitentes[0]?.nombre || "Información no disponible"
+        }`
+      )
+      .moveDown(0.2)
+      .text(
+        `Contacto: ${
+          proyecto.datosComitentes[0]?.contacto || "Información no disponible"
+        }`
+      );
+    doc.moveDown(1);
+
+    // Línea divisoria
+    doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke(secondaryColor);
+
+    // Pie de página
+    doc
+      .fontSize(10)
+      .fillColor(secondaryColor)
+      .text("Generado por el sistema de gestión de proyectos", 50, 750, {
+        align: "center",
+      });
+
+    // Finalizar el PDF
+    doc.end();
+  } catch (error) {
+    console.error("Error al generar el PDF:", error);
+    res.status(500).json({ message: "Error interno del servidor.", error });
+  }
 };
 
 // Obtener todos los proyectos

@@ -6,6 +6,7 @@ import {
   createProyecto,
   updateProyecto,
   getFechasAviso,
+  generatePDF,
 } from "../controllers/projects.controller.js";
 
 const router = express.Router();
@@ -17,6 +18,17 @@ router.get("/", getProyectos);
 
 // GET: Obtener todas las fechas de aviso de todos los proyectos
 router.get("/fechas", getFechasAviso);
+
+// GET: Generar un PDF con los datos de un proyecto
+router.get(
+  "/:id/pdf",
+  [
+    param("id")
+      .isInt({ min: 1 })
+      .withMessage("El ID debe ser un número entero positivo."),
+  ],
+  generatePDF
+);
 
 // GET: Obtener un proyecto por ID
 router.get(
