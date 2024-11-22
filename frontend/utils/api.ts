@@ -16,3 +16,15 @@ export const getFechas = async () => {
   }
   return response.json();
 };
+
+export const downloadPDF = (id: string) => {
+  fetch(`${URL_BASE}/${id}/pdf`).then((response) => {
+    response.blob().then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "proyecto.pdf";
+      a.click();
+    });
+  });
+};
