@@ -48,7 +48,7 @@ export default function FormDatosComitentes() {
   ];
 
   return (
-    <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 grid grid-cols-4 gap-4">
+    <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 flex flex-col md:grid  md:grid-cols-4 gap-4">
       <div className="col-span-4">
         <h3 className="text-lg font-semibold">Datos de los Comitentes</h3>
       </div>
@@ -57,7 +57,7 @@ export default function FormDatosComitentes() {
           {comitentes.map(({ label, value }) => (
             <Input
               key={`${index}-${value}-${label}`}
-              label={label}
+              label={`${label} Comitente ${index + 1}`}
               labelPlacement="inside"
               isDisabled={formData?.estado === "completado"}
               required

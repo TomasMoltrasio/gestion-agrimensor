@@ -22,7 +22,7 @@ export default function FormDatosObservaciones() {
       {observaciones.map(({ value, label }) => (
         <div
           key={`${value}-datosObservaciones`}
-          className="grid grid-cols-4 gap-4 items-center"
+          className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center"
         >
           <span className="text-base font-medium">{label}</span>
           <I18nProvider locale="es-AR">

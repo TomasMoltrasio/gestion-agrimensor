@@ -32,7 +32,7 @@ export default function FormDatosProyecto() {
   };
 
   return (
-    <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 grid grid-cols-2 gap-4">
+    <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 flex flex-col md:grid md:grid-cols-2 gap-4">
       <div className="col-span-2 ">
         <h3 className="text-lg font-semibold">Datos del Proyecto</h3>
       </div>

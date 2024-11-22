@@ -62,8 +62,8 @@ export default function FormDatosCatastrales() {
   };
 
   return (
-    <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 grid grid-cols-4 gap-4">
-      <div className="col-span-4">
+    <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="col-span-2 md:col-span-4">
         <h3 className="text-lg font-semibold">Datos Catastrales</h3>
       </div>
       <Autocomplete
@@ -95,7 +95,7 @@ export default function FormDatosCatastrales() {
       {data.map((item) => (
         <Input
           key={`${item.value} - datosCatastrales`}
-          className="col-span-2"
+          className={item.value === "partida" ? "col-span-2" : ""}
           label={item.label}
           required={item.label === "Partida"}
           isDisabled={formData?.estado === "completado"}

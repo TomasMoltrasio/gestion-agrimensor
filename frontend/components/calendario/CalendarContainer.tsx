@@ -176,7 +176,7 @@ export default function CalendarContainer() {
   };
 
   return (
-    <section className="w-full h-max p-4 flex flex-col justify-start items-start rounded-md">
+    <section className="w-full h-max md:p-4 flex flex-col justify-start items-start rounded-md">
       {Object.entries(groupedDates).map(([month, monthDates]) => (
         <div
           key={month}
