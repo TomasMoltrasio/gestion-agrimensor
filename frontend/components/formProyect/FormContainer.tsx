@@ -9,6 +9,7 @@ import BtnSave from "@components/formProyect/BtnSave";
 import { useForm } from "@context/FormContext";
 import { useEffect } from "react";
 import FormContainerSkeleton from "@components/formProyect/FormContainerSkeleton";
+import FormDatosPagos from "@components/formProyect/FormDatosPagos";
 
 export default function FormContainer({ id }: { id?: string }) {
   const { loadProject, isLoading, resetFormData, formData } = useForm();
@@ -34,6 +35,7 @@ export default function FormContainer({ id }: { id?: string }) {
         <>
           <FormDatosProyecto />
           <FormDatosComitentes />
+          <FormDatosPagos />
           <FormDatosCatastrales />
           <FormDatosObservaciones />
           <div className="flex justify-end gap-x-4">

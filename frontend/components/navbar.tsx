@@ -12,7 +12,7 @@ export const Navbar = () => {
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-0 sm:basis-1/3">
         <Link className="text-xl md:text-2xl font-medium" href="/">
-          Sistema de gestión
+          Meridiano Agrimensura
         </Link>
       </NavbarContent>
       <NavbarContent

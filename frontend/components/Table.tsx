@@ -83,7 +83,8 @@ export default function TableComponent() {
       filteredProjects = filteredProjects.filter(
         (user) =>
           user.nombre?.toLowerCase().includes(filterValue.toLowerCase()) ||
-          user.partida?.toString().includes(filterValue)
+          user.partida?.toString().includes(filterValue) ||
+          user.contacto?.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
@@ -236,7 +237,7 @@ export default function TableComponent() {
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Buscar por nombre o partida..."
+            placeholder="Buscar por nombre, partida o contacto..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}

@@ -6,17 +6,16 @@ import { useForm } from "@context/FormContext";
 export default function FormDatosProyecto() {
   const profesionales = [
     { label: "Tomás Portales", value: "Tomás Portales" },
-    { label: "Juan Perez", value: "Juan" },
+    { label: "Mariana López", value: "Juan" },
   ];
 
   const tiposTrabajo = [
-    { label: "Catastro", value: "Catastro" },
-    { label: "Informe Dominio", value: "Informe Dominio" },
-    { label: "Relevamiento", value: "Relevamiento" },
-    { label: "Dibujo", value: "Dibujo" },
-    { label: "C10", value: "C10" },
-    { label: "Plano Obra", value: "Plano Obra" },
-    { label: "Nota Escribano", value: "Nota Escribano" },
+    { label: "Mensura", value: "mensura" },
+    { label: "Ph", value: "ph" },
+    { label: "Cep", value: "cep" },
+    { label: "Amojonamiento", value: "amojonamiento" },
+    { label: "Relevamiento", value: "relevamiento" },
+    { label: "947", value: "947" },
   ];
 
   const prioridades = [
@@ -33,9 +32,9 @@ export default function FormDatosProyecto() {
 
   return (
     <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 flex flex-col md:grid md:grid-cols-2 gap-4">
-      <div className="col-span-2 ">
+      <header className="col-span-2 ">
         <h3 className="text-lg font-semibold">Datos del Proyecto</h3>
-      </div>
+      </header>
       <Input
         label="Nombre"
         labelPlacement="inside"

@@ -28,7 +28,7 @@ export type Proyecto = {
   nombre: string;
   direccion: string;
   tipoTrabajo: string;
-  profesional: "Tomás Portales" | "Juan Perez";
+  profesional: "Tomás Portales" | "Mariana López";
   prioridad: 1 | 2 | 3;
   archivosIcloud: string;
   estado: "en curso" | "completado";
@@ -36,6 +36,11 @@ export type Proyecto = {
     total: number;
     moneda: "USD" | "ARS";
   };
+  pagos: {
+    fecha: string;
+    monto: string;
+    moneda: "USD" | "ARS";
+  }[];
   datosCatastrales: {
     partido: number;
     partida: string;

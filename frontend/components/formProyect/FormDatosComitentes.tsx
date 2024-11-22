@@ -49,9 +49,9 @@ export default function FormDatosComitentes() {
 
   return (
     <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 flex flex-col md:grid  md:grid-cols-4 gap-4">
-      <div className="col-span-4">
+      <header className="col-span-4">
         <h3 className="text-lg font-semibold">Datos de los Comitentes</h3>
-      </div>
+      </header>
       {Array.from({ length: cantComitentes }).map((_, index) => (
         <Fragment key={`${index}-fragment`}>
           {comitentes.map(({ label, value }) => (

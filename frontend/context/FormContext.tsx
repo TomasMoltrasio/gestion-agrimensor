@@ -19,6 +19,7 @@ interface FormContextType {
   isLoading: boolean;
   updateEstado: (value: string, id: string) => void;
   deleteComitente: (index: number) => void;
+  deletePago: (index: number) => void;
   loadAllProjects: () => Promise<void>;
   Projects: ProyectoTable[];
 }
@@ -197,9 +198,36 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
               [parentField]: updatedArray,
             };
           })
-        : setFormData((prev) =>
-            prev ? { ...prev, [field]: value } : ({ [field]: value } as Project)
-          );
+        : field.includes("pagos")
+          ? setFormData((prev: any) => {
+              const [parentField, index, childField] = field.split("-");
+              const indexNum = parseInt(index, 10);
+              if (!prev) return { [parentField]: [{ [childField]: value }] };
+              if (prev && !prev[parentField])
+                return { ...prev, [parentField]: [{ [childField]: value }] };
+
+              // Asegurarnos de que el array tenga la longitud suficiente
+              let updatedArray = [...prev[parentField]];
+              while (updatedArray.length <= indexNum) {
+                updatedArray.push({});
+              }
+
+              // Actualizar el elemento del array en el índice correspondiente
+              updatedArray[indexNum] = {
+                ...updatedArray[indexNum],
+                [childField]: value,
+              };
+
+              return {
+                ...prev,
+                [parentField]: updatedArray,
+              };
+            }) // Actualizar el campo directamente
+          : setFormData((prev) =>
+              prev
+                ? { ...prev, [field]: value }
+                : ({ [field]: value } as Project)
+            );
   };
 
   const updateEstado = (value: string, id: string): void => {
@@ -274,6 +302,19 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
+  const deletePago = (index: number): void => {
+    setFormData((prev: any) => {
+      if (!prev) return;
+      const updatedArray = prev.pagos?.filter(
+        (_: any, i: number) => i !== index
+      );
+      return {
+        ...prev,
+        pagos: updatedArray,
+      };
+    });
+  };
+
   return (
     <FormContext.Provider
       value={{
@@ -288,6 +329,7 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({
         validationErrors,
         isLoading,
         deleteComitente,
+        deletePago,
         updateEstado,
         resetFormData,
         loadAllProjects,
