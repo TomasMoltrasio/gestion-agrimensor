@@ -44,6 +44,7 @@ export default function FormDatosPagos() {
                     ? parseDate(formData.pagos[index].fecha)
                     : undefined
                 }
+                isDisabled={formData?.estado === "completado"}
                 onChange={(date) =>
                   onUpdate(date?.toString(), `pagos-${index}-fecha`)
                 }
