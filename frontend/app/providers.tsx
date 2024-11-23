@@ -6,6 +6,7 @@ import { FormProvider } from "@context/FormContext";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
+import { SessionProvider } from "next-auth/react";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -18,7 +19,9 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   return (
     <NextUIProvider navigate={router.push}>
       <NextThemesProvider {...themeProps}>
-        <FormProvider>{children}</FormProvider>
+        <SessionProvider>
+          <FormProvider>{children}</FormProvider>
+        </SessionProvider>
       </NextThemesProvider>
     </NextUIProvider>
   );

@@ -6,6 +6,7 @@ import {
 import Link from "next/link";
 
 import { ThemeSwitch } from "@components/theme-switch";
+import BtnSesion from "./BtnSesion";
 
 export const Navbar = () => {
   return (
@@ -19,13 +20,13 @@ export const Navbar = () => {
         className="hidden sm:flex basis-0 sm:basis-full"
         justify="end"
       >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <ThemeSwitch />
+        <NavbarItem className="hidden sm:flex gap-2 ">
+          <BtnSesion />
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-0 pl-4" justify="end">
-        <ThemeSwitch />
+        <BtnSesion />
       </NavbarContent>
     </NextUINavbar>
   );
