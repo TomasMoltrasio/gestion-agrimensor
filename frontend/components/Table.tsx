@@ -110,13 +110,33 @@ export default function TableComponent() {
 
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a: ProyectoTable, b: ProyectoTable) => {
-      const first = a[sortDescriptor.column as keyof ProyectoTable] as number;
-      const second = b[sortDescriptor.column as keyof ProyectoTable] as number;
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
+      const first = a[sortDescriptor.column as keyof ProyectoTable] as
+        | number
+        | string
+        | undefined;
+      const second = b[sortDescriptor.column as keyof ProyectoTable] as
+        | number
+        | string
+        | undefined;
 
+      // Función para determinar si un valor es indefinido o no
+      const isUndefined = (val: number | string | undefined) =>
+        val === undefined || val === "";
+
+      if (sortDescriptor.direction === "ascending") {
+        if (isUndefined(first)) return 1;
+        if (isUndefined(second)) return -1;
+      } else {
+        if (isUndefined(first)) return -1;
+        if (isUndefined(second)) return 1;
+      }
+
+      const cmp = first! < second! ? -1 : first! > second! ? 1 : 0;
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
+
+  console.log({ sortedItems });
 
   const renderCell = React.useCallback(
     (user: ProyectoTable, columnKey: React.Key) => {
