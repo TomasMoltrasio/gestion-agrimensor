@@ -38,6 +38,9 @@ import {
   INITIAL_VISIBLE_COLUMNS,
 } from "@utils/table";
 import { ProyectoTable } from "@tipos/index";
+import { VerticalDotsIcon } from "./icons/VerticalDotsIcon";
+import DuplicateIcon from "./icons/DuplicateIcon";
+import BtnDuplicate from "./table/BtnDuplicate";
 
 export default function TableComponent() {
   const [filterValue, setFilterValue] = React.useState("");
@@ -206,12 +209,26 @@ export default function TableComponent() {
 
         case "acciones":
           return (
-            <Link
-              href={`/proyectos/${user.id}`}
-              className="flex items-center justify-center w-full"
-            >
-              <EyeIcon />
-            </Link>
+            <div className="relative flex justify-end items-center gap-2">
+              <Dropdown className="bg-background border-1 border-default-200">
+                <DropdownTrigger>
+                  <Button isIconOnly radius="full" size="sm" variant="light">
+                    <VerticalDotsIcon className="text-default-400" />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem
+                    href={`/proyectos/${user.id}`}
+                    endContent={<EyeIcon />}
+                  >
+                    Ver
+                  </DropdownItem>
+                  <DropdownItem endContent={<DuplicateIcon />}>
+                    <BtnDuplicate id={user?.id?.toString()} />
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
           );
         default:
           return typeof cellValue === "object"
