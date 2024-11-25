@@ -20,6 +20,7 @@ export type ProyectoTable = {
     moneda: "USD" | "ARS";
   };
   archivosIcloud: string;
+  detalle: string;
 };
 
 export type Proyecto = {
@@ -189,6 +190,7 @@ export type Proyecto = {
     fechaAviso: string;
     observaciones: string;
   };
+  detalle: string;
 };
 
 export type ProyectoObservaciones = {

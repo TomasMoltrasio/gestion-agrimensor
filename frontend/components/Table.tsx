@@ -154,6 +154,8 @@ export default function TableComponent() {
       )
         return "";
 
+      console.log({ user });
+
       switch (columnKey) {
         case "icloud":
           return (

@@ -141,6 +141,14 @@ export default function FormDatosProyecto() {
         value={formData?.archivosIcloud || ""}
         onChange={(e) => onUpdate(e.target.value, "archivosIcloud")}
       />
+      <Input
+        className="col-span-2"
+        label="Observaciones"
+        labelPlacement="inside"
+        isDisabled={formData?.estado === "completado"}
+        value={formData?.detalle || ""}
+        onChange={(e) => onUpdate(e.target.value, "detalle")}
+      />
     </div>
   );
 }

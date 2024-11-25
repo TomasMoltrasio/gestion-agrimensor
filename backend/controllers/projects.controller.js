@@ -132,6 +132,7 @@ export const getProyectos = async (req, res) => {
         "datosComitentes.contacto": 1,
         presupuesto: 1,
         archivosIcloud: 1,
+        detalle: 1,
       }
     );
 
@@ -153,6 +154,7 @@ export const getProyectos = async (req, res) => {
       contacto: proyecto.datosComitentes[0]?.contacto, // Asegurarte de manejar undefined
       presupuesto: proyecto.presupuesto,
       archivosIcloud: proyecto.archivosIcloud,
+      detalle: proyecto.detalle,
     }));
 
     res.json(proyectosWithExcludes);

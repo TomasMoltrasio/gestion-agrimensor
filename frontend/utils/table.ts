@@ -23,5 +23,6 @@ export const INITIAL_VISIBLE_COLUMNS = [
   "partido",
   "partida",
   "propietario",
+  "detalle",
   "acciones",
 ];
