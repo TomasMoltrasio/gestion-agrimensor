@@ -26,7 +26,7 @@ import { SearchIcon } from "@icons/SearchIcon";
 import { AppleIcon } from "@icons/AppleIcon";
 import Link from "next/link";
 import { columns, statusOptions } from "@utils/data";
-import { capitalize } from "@utils/utils";
+import { capitalize, handleDuplicate } from "@utils/utils";
 import { Key } from "@react-types/shared";
 import { EyeIcon } from "./icons/EyeIcon";
 import { CalendarIcon } from "./icons/CalendarIcon";
@@ -40,7 +40,6 @@ import {
 import { ProyectoTable } from "@tipos/index";
 import { VerticalDotsIcon } from "./icons/VerticalDotsIcon";
 import DuplicateIcon from "./icons/DuplicateIcon";
-import BtnDuplicate from "./table/BtnDuplicate";
 
 export default function TableComponent() {
   const [filterValue, setFilterValue] = React.useState("");
@@ -57,6 +56,7 @@ export default function TableComponent() {
   const [rowsPerPage, setRowsPerPage] = React.useState(Projects?.length || 5);
   React.useEffect(() => {
     loadAllProjects();
+    setRowsPerPage(Projects?.length || 5);
     const storedRowsPerPage = localStorage.getItem("rowsPerPage");
     if (storedRowsPerPage) {
       setRowsPerPage(Number(storedRowsPerPage));
@@ -218,13 +218,19 @@ export default function TableComponent() {
                 </DropdownTrigger>
                 <DropdownMenu>
                   <DropdownItem
+                    as={Link}
                     href={`/proyectos/${user.id}`}
                     endContent={<EyeIcon />}
                   >
                     Ver
                   </DropdownItem>
-                  <DropdownItem endContent={<DuplicateIcon />}>
-                    <BtnDuplicate id={user?.id?.toString()} />
+                  <DropdownItem
+                    onClick={async () =>
+                      await handleDuplicate(user.id.toString())
+                    }
+                    endContent={<DuplicateIcon />}
+                  >
+                    Duplicar
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
