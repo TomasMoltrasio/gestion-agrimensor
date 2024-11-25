@@ -19,14 +19,9 @@ export const priorityOptions = [
 
 export const INITIAL_VISIBLE_COLUMNS = [
   "nombre",
-  "fecha",
   "prioridad",
   "partido",
   "partida",
   "propietario",
-  "direccion",
-  "contacto",
-  "presupuesto",
-  "icloud",
   "acciones",
 ];
