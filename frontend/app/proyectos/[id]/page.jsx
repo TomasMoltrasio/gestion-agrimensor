@@ -15,7 +15,6 @@ export default function Page({ params }) {
         <h2 className="text-xl opacity-70">Proyecto {params.id}</h2>
         <div className="flex gap-x-4 items-center">
           <BtnPDF id={params.id} />
-          <BtnEstado id={params.id} />
         </div>
       </div>
       <FormContainer id={params.id} />

@@ -2,6 +2,7 @@
 
 import { Button } from "@nextui-org/button";
 import { downloadPDF } from "@utils/api";
+import { PDFIcon } from "@components/icons/PDFIcon";
 
 export default function BtnPDF({ id }: { id?: string }) {
   return (
@@ -13,8 +14,10 @@ export default function BtnPDF({ id }: { id?: string }) {
           downloadPDF(id);
         }
       }}
+      className="inline-flex items-center gap-x-2"
     >
-      Descargar PDF
+      <PDFIcon />
+      <span className="hidden md:block">Descargar PDF</span>
     </Button>
   );
 }

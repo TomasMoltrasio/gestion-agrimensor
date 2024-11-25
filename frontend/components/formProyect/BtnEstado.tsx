@@ -9,6 +9,7 @@ export default function BtnEstado({ id }: { id?: string }) {
   return (
     <Button
       isLoading={isLoading}
+      size="lg"
       color={
         formData?.estado && formData?.estado === "en curso"
           ? "success"

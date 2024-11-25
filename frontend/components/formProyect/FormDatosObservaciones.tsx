@@ -15,7 +15,7 @@ export default function FormDatosObservaciones() {
   };
 
   return (
-    <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 flex flex-col gap-4">
+    <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 flex flex-col gap-4 ">
       <div className="">
         <h3 className="text-lg font-semibold">Seguimiento del Proyecto</h3>
       </div>

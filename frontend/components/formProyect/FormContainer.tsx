@@ -10,6 +10,7 @@ import { useForm } from "@context/FormContext";
 import { useEffect } from "react";
 import FormContainerSkeleton from "@components/formProyect/FormContainerSkeleton";
 import FormDatosPagos from "@components/formProyect/FormDatosPagos";
+import BtnEstado from "./BtnEstado";
 
 export default function FormContainer({ id }: { id?: string }) {
   const { loadProject, isLoading, resetFormData, formData } = useForm();
@@ -38,7 +39,10 @@ export default function FormContainer({ id }: { id?: string }) {
           <FormDatosPagos />
           <FormDatosCatastrales />
           <FormDatosObservaciones />
-          <div className="flex justify-end gap-x-4">
+          <div className="flex justify-end mb-20 md:mb-0 ">
+            <BtnEstado id={id} />
+          </div>
+          <div className="flex md:flex-col justify-end gap-x-4 md:gap-x-0 md:gap-y-4 fixed bottom-4 right-4 z-10">
             <BtnReset />
             <BtnSave />
           </div>

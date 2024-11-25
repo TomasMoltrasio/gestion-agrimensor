@@ -23,7 +23,7 @@ export default function BtnSave() {
       type="submit"
       color="primary"
       variant="solid"
-      className="disabled:opacity-30 disabled:hover:opacity-30"
+      className="disabled:opacity-0 disabled:hover:opacity-0"
       size="lg"
     >
       Guardar
