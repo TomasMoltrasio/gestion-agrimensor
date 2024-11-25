@@ -136,8 +136,6 @@ export default function TableComponent() {
     });
   }, [sortDescriptor, items]);
 
-  console.log({ sortedItems });
-
   const renderCell = React.useCallback(
     (user: ProyectoTable, columnKey: React.Key) => {
       const cellValue = user[columnKey as keyof ProyectoTable];

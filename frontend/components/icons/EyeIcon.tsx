@@ -1,5 +1,5 @@
 export const EyeIcon = ({ strokeWidth = 1.5, ...otherProps }) => (
-  <svg viewBox="0 0 24 24" fill="none">
+  <svg height={24} width={24} viewBox="0 0 24 24">
     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
     <g
       id="SVGRepo_tracerCarrier"
