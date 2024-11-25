@@ -39,6 +39,7 @@ const ProyectoSchema = new Schema(
       parcela: { type: String },
       subParcela: { type: String },
     },
+
     datosComitentes: [
       {
         nombre: { type: String },
@@ -46,6 +47,7 @@ const ProyectoSchema = new Schema(
         direccion: { type: String },
         contacto: { type: String },
       },
+      { _id: false },
     ],
     pagos: [
       {
@@ -53,6 +55,7 @@ const ProyectoSchema = new Schema(
         monto: { type: String },
         moneda: { type: String, enum: ["USD", "ARS"], default: "USD" },
       },
+      { _id: false },
     ],
     antecendenteCatastral: EtapaSchema,
     informeDominio: EtapaSchema,
@@ -80,6 +83,7 @@ const ProyectoSchema = new Schema(
     presentacionDefinitiva947: EtapaSchema,
     estadoParcelario: EtapaSchema,
     consulta: EtapaSchema,
+    detalle: { type: String },
   },
   { timestamps: true }
 );

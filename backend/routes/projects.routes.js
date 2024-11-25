@@ -7,6 +7,7 @@ import {
   updateProyecto,
   getFechasAviso,
   generatePDF,
+  duplicateProyecto,
 } from "../controllers/projects.controller.js";
 
 const router = express.Router();
@@ -76,6 +77,17 @@ router.post(
       .withMessage('La moneda debe ser "USD" o "ARS".'),
   ],
   createProyecto
+);
+
+// POST: Duplicar un proyecto existente por ID
+router.post(
+  "/:id/duplicate",
+  [
+    param("id")
+      .isInt({ min: 1 })
+      .withMessage("El ID debe ser un número entero positivo."),
+  ],
+  duplicateProyecto
 );
 
 // PUT: Actualizar un proyecto existente por ID

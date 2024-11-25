@@ -179,6 +179,31 @@ export const getProyecto = async (req, res) => {
   }
 };
 
+// Duplicar un proyecto por ID
+export const duplicateProyecto = async (req, res) => {
+  try {
+    const proyecto = await Proyecto.findOne({ id: req.params.id });
+    if (!proyecto) {
+      return res.status(404).json({ message: "Proyecto no encontrado." });
+    }
+
+    delete proyecto._doc._id; // Eliminar el ID para que se genere uno nuevo
+    delete proyecto._doc.id; // Eliminar el ID para que se genere uno nuevo
+
+    // Crear un nuevo proyecto a partir del documento original
+    const nuevoProyecto = new Proyecto(
+      JSON.parse(JSON.stringify(proyecto._doc))
+    );
+
+    // Guardar el nuevo proyecto
+    await nuevoProyecto.save();
+    res.status(201).json(nuevoProyecto);
+  } catch (error) {
+    console.error("Error al duplicar el proyecto:", error);
+    res.status(500).json({ message: "Error interno del servidor.", error });
+  }
+};
+
 // Obtener todas las fechas de aviso de todos los proyectos
 export const getFechasAviso = async (req, res) => {
   try {
