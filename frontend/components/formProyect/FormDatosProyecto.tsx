@@ -6,7 +6,7 @@ import { useForm } from "@context/FormContext";
 export default function FormDatosProyecto() {
   const profesionales = [
     { label: "Tomás Portales", value: "Tomás Portales" },
-    { label: "Mariana López", value: "Juan" },
+    { label: "Mariana López", value: "Mariana López" },
   ];
 
   const tiposTrabajo = [

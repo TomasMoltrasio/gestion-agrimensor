@@ -28,3 +28,13 @@ export const downloadPDF = (id: string) => {
     });
   });
 };
+
+export const duplicateProject = async (id: string) => {
+  const response = await fetch(`${URL_BASE}/${id}/duplicate`, {
+    method: "POST",
+  });
+  if (!response.ok) {
+    throw new Error("Error al duplicar el proyecto");
+  }
+  return response.json();
+};

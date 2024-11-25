@@ -36,8 +36,8 @@ export default function FormContainer({ id }: { id?: string }) {
         <>
           <FormDatosProyecto />
           <FormDatosComitentes />
-          <FormDatosPagos />
           <FormDatosCatastrales />
+          <FormDatosPagos />
           <FormDatosObservaciones />
           <div className="flex justify-end mb-20 md:mb-0 ">
             <BtnEstado id={id} />
