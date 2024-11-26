@@ -52,8 +52,9 @@ const ProyectoSchema = new Schema(
     pagos: [
       {
         fecha: { type: String },
-        monto: { type: String },
-        moneda: { type: String, enum: ["USD", "ARS"], default: "USD" },
+        pesos: { type: Number },
+        dolares: { type: Number },
+        tipoCambio: { type: Number },
       },
       { _id: false },
     ],

@@ -8,6 +8,7 @@ import {
   getFechasAviso,
   generatePDF,
   duplicateProyecto,
+  generatePagosPDF,
 } from "../controllers/projects.controller.js";
 
 const router = express.Router();
@@ -29,6 +30,17 @@ router.get(
       .withMessage("El ID debe ser un número entero positivo."),
   ],
   generatePDF
+);
+
+// GET: Generar un PDF con los pagos de un proyecto
+router.get(
+  "/:id/pagos/pdf",
+  [
+    param("id")
+      .isInt({ min: 1 })
+      .withMessage("El ID debe ser un número entero positivo."),
+  ],
+  generatePagosPDF
 );
 
 // GET: Obtener un proyecto por ID

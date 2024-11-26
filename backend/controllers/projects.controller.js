@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import PDFDocument from "pdfkit";
+import PDFDocument from "pdfkit-table";
 import Proyecto from "../models/Project.js";
 
 const formatearFecha = (fechaISO) => {
@@ -66,7 +66,7 @@ export const generatePDF = async (req, res) => {
     doc
       .moveDown(0.5)
       .fontSize(14)
-      .fillColor(secondaryColor)
+      .fillColor("black")
       .text(`Partido: ${proyecto.datosCatastrales.partido}`)
       .moveDown(0.2)
       .text(`Partida: ${proyecto.datosCatastrales.partida}`);
@@ -110,6 +110,133 @@ export const generatePDF = async (req, res) => {
     doc.end();
   } catch (error) {
     console.error("Error al generar el PDF:", error);
+    res.status(500).json({ message: "Error interno del servidor.", error });
+  }
+};
+
+const getTotalPagos = (pagos, presupuesto) => {
+  if (!pagos || !presupuesto) return "0";
+
+  let total = pagos.reduce((acc, pago) => {
+    const monto =
+      presupuesto?.moneda === "USD"
+        ? parseInt(pago.dolares)
+        : parseInt(pago.pesos);
+    return monto ? acc + monto : acc;
+  }, 0);
+
+  return new Intl.NumberFormat("es-AR").format(total);
+};
+
+const getRestante = (pagos, presupuesto) => {
+  if (!pagos || !presupuesto) return "0";
+
+  let totalPagos = pagos.reduce((acc, pago) => {
+    let monto =
+      presupuesto.moneda === "USD"
+        ? parseInt(pago.dolares)
+        : parseInt(pago.pesos);
+    return monto ? acc + monto : acc;
+  }, 0);
+
+  let totalPresupuesto = presupuesto.total;
+
+  return new Intl.NumberFormat("es-AR").format(totalPresupuesto - totalPagos);
+};
+
+// Generar un PDF con los datos de los pagos de un proyecto
+export const generatePagosPDF = async (req, res) => {
+  try {
+    const proyecto = await Proyecto.findOne({ id: req.params.id });
+    if (!proyecto) {
+      return res.status(404).json({ message: "Proyecto no encontrado." });
+    }
+
+    // Configurar las cabeceras
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${proyecto.nombre}-pagos.pdf"`
+    );
+
+    // Crear y enviar el PDF
+    const doc = new PDFDocument({ margin: 50 });
+    doc.pipe(res);
+
+    // Estilos generales
+    const primaryColor = "black";
+    const secondaryColor = "#808080"; // Gris
+
+    // Encabezado
+    doc
+      .fontSize(22)
+      .fillColor(primaryColor)
+      .text(`Pagos del Proyecto: ${proyecto.nombre}`, {
+        align: "center",
+      });
+    doc.moveDown(1);
+
+    // Sección: Datos de los pagos
+    doc.fontSize(18).fillColor(primaryColor).text("Datos de los Pagos");
+    doc.moveDown(0.5);
+
+    const tableData = {
+      headers: ["Fecha", "Pesos", "Cambio", "Dólares"],
+      rows: proyecto.pagos.map((pago) => [
+        formatearFecha(pago.fecha),
+        pago.pesos || "-",
+        pago.tipoCambio || "-",
+        pago.dolares || "-",
+      ]),
+    };
+
+    await doc.table(tableData, {
+      prepareHeader: () => doc.font("Helvetica-Bold").fontSize(12),
+      prepareRow: (row, i) => doc.font("Helvetica").fontSize(10),
+    });
+
+    doc.moveDown(1);
+
+    // Total de pagos
+    doc
+      .fontSize(12)
+      .fillColor(primaryColor)
+      .text(
+        `Total de pagos: $${getTotalPagos(
+          proyecto?.pagos,
+          proyecto?.presupuesto
+        )}`
+      );
+    doc.moveDown(0.5);
+
+    // Restante
+    doc
+      .fontSize(12)
+      .fillColor(primaryColor)
+      .text(
+        `Restante: $${getRestante(proyecto?.pagos, proyecto?.presupuesto)}`
+      );
+    doc.moveDown(1);
+
+    // Total presupuesto
+    doc
+      .fontSize(12)
+      .fillColor(primaryColor)
+      .text(
+        `Total presupuesto: $${new Intl.NumberFormat("es-AR").format(
+          proyecto?.presupuesto?.total
+        )}`
+      );
+    doc.moveDown(1);
+
+    // Línea divisoria
+
+    doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke(primaryColor);
+
+    // Finalizar el PDF
+    doc.end();
+  } catch (error) {
+    console.error("Error al generar el PDF de pagos:", error);
     res.status(500).json({ message: "Error interno del servidor.", error });
   }
 };
