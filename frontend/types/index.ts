@@ -39,8 +39,9 @@ export type Proyecto = {
   };
   pagos: {
     fecha: string;
-    monto: string;
-    moneda: "USD" | "ARS";
+    pesos: string;
+    dolares: string;
+    tipoCambio: string;
   }[];
   datosCatastrales: {
     partido: number;

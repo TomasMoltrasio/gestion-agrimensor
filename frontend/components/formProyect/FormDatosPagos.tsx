@@ -7,11 +7,14 @@ import { Input } from "@nextui-org/input";
 import { DatePicker } from "@nextui-org/react";
 import { Fragment, useState } from "react";
 import DatosPagosTotal from "./DatosPagosTotal";
+import DolarOficial from "./DolarOficial";
+import BtnExportarPagos from "./BtnExportarPagos";
 
 type Pago = {
   fecha: string;
-  monto: string;
-  moneda: "USD" | "ARS";
+  pesos: string;
+  dolares: string;
+  tipoCambio: string;
 };
 
 export default function FormDatosPagos() {
@@ -30,86 +33,77 @@ export default function FormDatosPagos() {
 
   return (
     <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 flex flex-col">
-      <header className="mb-4">
-        <h3 className="text-lg font-semibold">Pagos realizados</h3>
-      </header>
-      <div className="col-span-1 md:grid md:grid-cols-2 gap-4 w-full">
-        <div className="grid grid-cols-2 gap-4">
-          {Array.from({ length: cantPagos }).map((_, index) => (
-            <Fragment key={`${index}-fragment`}>
-              <DatePicker
-                label={`Fecha de Pago ${index + 1}`}
-                value={
-                  formData?.pagos?.[index]?.fecha
-                    ? parseDate(formData.pagos[index].fecha)
-                    : undefined
-                }
-                isDisabled={formData?.estado === "completado"}
-                onChange={(date) =>
-                  onUpdate(date?.toString(), `pagos-${index}-fecha`)
-                }
-              />
-              <Input
-                label={`Monto de Pago ${index + 1}`}
-                placeholder="0.00"
-                isDisabled={formData?.estado === "completado"}
-                labelPlacement="inside"
-                startContent={
-                  <div className="pointer-events-none flex items-center">
-                    <span className="text-default-400 text-small">$</span>
-                  </div>
-                }
-                endContent={
-                  <div className="flex items-center">
-                    <label className="sr-only" htmlFor="currency">
-                      Currency
-                    </label>
-                    <select
-                      value={formData?.pagos?.[index]?.moneda || ""}
-                      onChange={(e) =>
-                        onUpdate(e.target.value, `pagos-${index}-moneda`)
-                      }
-                      className="outline-none border-0 bg-transparent text-default-400 text-small"
-                      id="currency"
-                      name="currency"
-                    >
-                      <option disabled selected></option>
-                      <option>USD</option>
-                      <option>ARS</option>
-                    </select>
-                  </div>
-                }
-                type="number"
-                value={formData?.pagos?.[index]?.monto || ""}
-                onChange={(e) =>
-                  onUpdate(e.target.value, `pagos-${index}-monto`)
-                }
-              />
-            </Fragment>
-          ))}
-          <div className="col-start-1 col-span-2 md:col-span-1 md:col-start-2 flex items-center justify-end gap-x-4">
-            <Button
-              color="danger"
-              variant="ghost"
-              onClick={onDelete}
-              isDisabled={cantPagos === 1 || formData?.estado === "completado"}
-              className={cantPagos === 1 ? "hidden" : ""}
-            >
-              Quitar pago
-            </Button>
-            <Button
-              isDisabled={formData?.estado === "completado"}
-              color="primary"
-              onClick={() => setCantPagos(cantPagos + 1)}
-            >
-              Agregar pago
-            </Button>
-          </div>
+      <header className="mb-4 flex flex-col justify-start items-start md:flex-row md:justify-between md:items-center">
+        <h3 className="text-lg font-semibold">Pagos realizados </h3>
+        <div className="flex flex-col-reverse items-end gap-y-1 md:gap-y-0 md:flex-row gap-x-4">
+          <DolarOficial presupuesto={formData?.presupuesto} />
+          <BtnExportarPagos id={formData?.id?.toString()} />
         </div>
+      </header>
+      <div className="col-span-1 flex flex-col h-max md:grid md:grid-cols-4 gap-4 w-full">
+        {Array.from({ length: cantPagos }).map((_, index) => (
+          <Fragment key={`${index}-fragment`}>
+            <DatePicker
+              label={`Fecha de Pago ${index + 1}`}
+              value={
+                formData?.pagos?.[index]?.fecha
+                  ? parseDate(formData.pagos[index].fecha)
+                  : undefined
+              }
+              isDisabled={formData?.estado === "completado"}
+              onChange={(date) =>
+                onUpdate(date?.toString(), `pagos-${index}-fecha`)
+              }
+            />
+            <Input
+              label={`Pesos de Pago ${index + 1}`}
+              type="string"
+              value={formData?.pagos?.[index]?.pesos}
+              isDisabled={formData?.estado === "completado"}
+              onChange={(e) => onUpdate(e.target.value, `pagos-${index}-pesos`)}
+            />
+            <Input
+              label={`Cambio de Pago ${index + 1}`}
+              type="string"
+              value={formData?.pagos?.[index]?.tipoCambio}
+              isDisabled={formData?.estado === "completado"}
+              onChange={(e) =>
+                onUpdate(e.target.value, `pagos-${index}-tipoCambio`)
+              }
+            />
+            <Input
+              label={`Dólares de Pago ${index + 1}`}
+              type="string"
+              value={formData?.pagos?.[index]?.dolares}
+              isDisabled={formData?.estado === "completado"}
+              onChange={(e) =>
+                onUpdate(e.target.value, `pagos-${index}-dolares`)
+              }
+            />
+          </Fragment>
+        ))}
         <DatosPagosTotal
           pagos={formData?.pagos}
           presupuesto={formData?.presupuesto}
         />
+        <div className="col-start-1 col-span-2 md:col-span-1 md:col-start-4 flex items-center justify-end gap-x-4">
+          <Button
+            color="danger"
+            variant="ghost"
+            onClick={onDelete}
+            isDisabled={cantPagos === 1 || formData?.estado === "completado"}
+            className={cantPagos === 1 ? "hidden" : ""}
+          >
+            Quitar pago
+          </Button>
+          <Button
+            isDisabled={formData?.estado === "completado"}
+            color="primary"
+            onClick={() => setCantPagos(cantPagos + 1)}
+          >
+            Agregar pago
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -29,6 +29,18 @@ export const downloadPDF = (id: string) => {
   });
 };
 
+export const downloadPDFPagos = (id: string) => {
+  fetch(`${URL_BASE}/${id}/pagos/pdf`).then((response) => {
+    response.blob().then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "proyecto.pdf";
+      a.click();
+    });
+  });
+};
+
 export const duplicateProject = async (id: string) => {
   const response = await fetch(`${URL_BASE}/${id}/duplicate`, {
     method: "POST",
