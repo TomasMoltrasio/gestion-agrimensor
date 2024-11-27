@@ -8,7 +8,7 @@ export default function BtnPDF({ id }: { id?: string }) {
   return (
     <Button
       color="danger"
-      variant="bordered"
+      variant="light"
       onClick={() => {
         if (id) {
           downloadPDF(id);

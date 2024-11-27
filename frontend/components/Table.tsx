@@ -63,7 +63,7 @@ export default function TableComponent() {
     }
   }, []);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
-    column: "id",
+    column: "prioridad",
     direction: "ascending",
   });
 

@@ -44,8 +44,10 @@ export default function FormContainer({ id }: { id?: string }) {
             <BtnDuplicar id={id} />
             <BtnEstado id={id} />
           </div>
-          <div className="flex md:flex-col justify-end gap-x-4 md:gap-x-0 md:gap-y-4 fixed bottom-4 right-4 z-10">
+          <div className="flex md:flex-col justify-start gap-x-4 md:gap-x-0 md:gap-y-4 fixed bottom-4 left-4 z-10">
             <BtnReset />
+          </div>
+          <div className="flex md:flex-col justify-end gap-x-4 md:gap-x-0 md:gap-y-4 fixed bottom-4 right-4 z-10">
             <BtnSave />
           </div>
         </>
