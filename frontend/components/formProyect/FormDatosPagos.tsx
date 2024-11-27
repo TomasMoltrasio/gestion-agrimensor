@@ -35,7 +35,7 @@ export default function FormDatosPagos() {
     <div className="dark:bg-opacity-10 bg-white shadow-small rounded-lg w-full h-max px-4 py-4 flex flex-col">
       <header className="mb-4 flex flex-col justify-start items-start md:flex-row md:justify-between md:items-center">
         <h3 className="text-lg font-semibold">Pagos realizados </h3>
-        <div className="flex flex-col-reverse items-end gap-y-1 md:gap-y-0 md:flex-row gap-x-4">
+        <div className="flex flex-col-reverse items-end gap-y-1 md:gap-y-0 md:flex-row md:items-center gap-x-4">
           <DolarOficial presupuesto={formData?.presupuesto} />
           <BtnExportarPagos id={formData?.id?.toString()} />
         </div>
