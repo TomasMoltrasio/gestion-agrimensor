@@ -14,7 +14,7 @@ export const handleDuplicate = async (id: string) => {
       showConfirmButton: false,
       timer: 1500,
     }).then(() => {
-      location.reload();
+      location.replace("/");
     });
   } catch (error) {
     Swal.fire({
