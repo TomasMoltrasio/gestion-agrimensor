@@ -53,7 +53,7 @@ export default function TableComponent() {
   const [statusFilter, setStatusFilter] = React.useState<Selection>(
     new Set(["en curso"])
   );
-  const [rowsPerPage, setRowsPerPage] = React.useState(Projects?.length || 5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(Projects?.length || 15);
   React.useEffect(() => {
     loadAllProjects();
     setRowsPerPage(Projects?.length || 5);
@@ -154,8 +154,6 @@ export default function TableComponent() {
       )
         return "";
 
-      console.log({ user });
-
       switch (columnKey) {
         case "icloud":
           return (
@@ -211,32 +209,9 @@ export default function TableComponent() {
 
         case "acciones":
           return (
-            <div className="relative flex justify-end items-center gap-2">
-              <Dropdown className="bg-background border-1 border-default-200">
-                <DropdownTrigger>
-                  <Button isIconOnly radius="full" size="sm" variant="light">
-                    <VerticalDotsIcon className="text-default-400" />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu>
-                  <DropdownItem
-                    as={Link}
-                    href={`/proyectos/${user.id}`}
-                    endContent={<EyeIcon />}
-                  >
-                    Ver
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={async () =>
-                      await handleDuplicate(user.id.toString())
-                    }
-                    endContent={<DuplicateIcon />}
-                  >
-                    Duplicar
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
+            <Link href={`/proyectos/${user.id}`}>
+              <EyeIcon />
+            </Link>
           );
         default:
           return typeof cellValue === "object"
