@@ -343,6 +343,7 @@ export default function TableComponent() {
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
               value={rowsPerPage}
+              defaultValue={Projects.length}
             >
               <option value="5">5</option>
               <option value="10">10</option>
