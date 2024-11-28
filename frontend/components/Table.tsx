@@ -53,14 +53,10 @@ export default function TableComponent() {
   const [statusFilter, setStatusFilter] = React.useState<Selection>(
     new Set(["en curso"])
   );
-  const [rowsPerPage, setRowsPerPage] = React.useState(Projects?.length || 15);
+  const [rowsPerPage, setRowsPerPage] = React.useState(Projects?.length || 100);
   React.useEffect(() => {
     loadAllProjects();
-    setRowsPerPage(Projects?.length || 5);
-    const storedRowsPerPage = localStorage.getItem("rowsPerPage");
-    if (storedRowsPerPage) {
-      setRowsPerPage(Number(storedRowsPerPage));
-    }
+    setRowsPerPage(Projects?.length || 100);
   }, []);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "prioridad",
@@ -343,7 +339,6 @@ export default function TableComponent() {
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
               value={rowsPerPage}
-              defaultValue={Projects.length}
             >
               <option value="5">5</option>
               <option value="10">10</option>
