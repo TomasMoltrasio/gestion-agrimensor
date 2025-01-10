@@ -9,6 +9,8 @@ import {
   generatePDF,
   duplicateProyecto,
   generatePagosPDF,
+  getAlertasToday,
+  updateAlerta,
 } from "../controllers/projects.controller.js";
 
 const router = express.Router();
@@ -42,6 +44,9 @@ router.get(
   ],
   generatePagosPDF
 );
+
+// GET: Obtener todas las alertas del día
+router.get("/alertas", getAlertasToday);
 
 // GET: Obtener un proyecto por ID
 router.get(
@@ -127,6 +132,20 @@ router.put(
       .withMessage("La prioridad debe ser un valor entre 1 y 3."),
   ],
   updateProyecto
+);
+
+// PUT: Actualizar una alerta por ID
+router.put(
+  "/alertas/:id",
+  [
+    param("id")
+      .isInt({ min: 1 })
+      .withMessage("El ID debe ser un número entero positivo."),
+    body("activa")
+      .isBoolean()
+      .withMessage("El campo activa debe ser un booleano."),
+  ],
+  updateAlerta
 );
 
 export default router;

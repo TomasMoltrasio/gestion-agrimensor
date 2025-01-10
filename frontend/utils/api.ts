@@ -17,6 +17,48 @@ export const getFechas = async () => {
   return response.json();
 };
 
+export const getAlertas = async () => {
+  const response = await fetch(`${URL_BASE}/alertas`);
+  if (!response.ok) {
+    throw new Error("Error al cargar las alertas");
+  }
+  return response.json();
+};
+
+export const updateActiveAlerta = async (id: number) => {
+  let body = JSON.stringify({ activa: false });
+
+  const response = await fetch(`${URL_BASE}/alertas/${id}`, {
+    body: body,
+    headers: {
+      "Content-Type": "application/json", // Indica que el body es JSON
+    },
+    method: "PUT",
+  });
+  if (!response.ok) {
+    throw new Error("Error al actualizar la alerta");
+  }
+  return response.json();
+};
+
+export const updateAlerta = async (
+  id: string,
+  mensaje: string,
+  fecha: string
+) => {
+  const response = await fetch(`${URL_BASE}/alertas/${id}`, {
+    body: JSON.stringify({ mensaje, fecha }),
+    headers: {
+      "Content-Type": "application/json", // Indica que el body es JSON
+    },
+    method: "PUT",
+  });
+  if (!response.ok) {
+    throw new Error("Error al actualizar la alerta");
+  }
+  return response.json();
+};
+
 export const downloadPDF = (id: string) => {
   fetch(`${URL_BASE}/${id}/pdf`).then((response) => {
     response.blob().then((blob) => {

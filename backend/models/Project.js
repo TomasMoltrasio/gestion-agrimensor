@@ -9,6 +9,15 @@ const EtapaSchema = new Schema(
   { _id: false }
 );
 
+const AlertaSchema = new Schema(
+  {
+    mensaje: { type: String },
+    fecha: { type: String },
+    activa: { type: Boolean, default: true },
+  },
+  { _id: false }
+);
+
 const ProyectoSchema = new Schema(
   {
     id: { type: Number, unique: true }, // Incremental ID
@@ -86,6 +95,7 @@ const ProyectoSchema = new Schema(
     estadoParcelario: EtapaSchema,
     consulta: EtapaSchema,
     detalle: { type: String },
+    alerta: AlertaSchema,
   },
   { timestamps: true }
 );

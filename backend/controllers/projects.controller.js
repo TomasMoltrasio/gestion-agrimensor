@@ -20,6 +20,84 @@ const formatearFecha = (fechaISO) => {
   return fechafinal;
 };
 
+export const getAlertasToday = async (req, res) => {
+  try {
+    // Obtener proyectos con solo los campos necesarios
+    const proyectos = await Proyecto.find({}, { id: 1, alerta: 1 });
+
+    if (proyectos.length === 0) {
+      return res.status(404).json({ message: "No hay proyectos." });
+    }
+
+    // Fecha actual sin horas
+    const fechaHoy = new Date();
+    const hoySinHora = new Date(
+      fechaHoy.getFullYear(),
+      fechaHoy.getMonth(),
+      fechaHoy.getDate()
+    );
+
+    // Función para convertir "dd/mm/yyyy" a un objeto Date
+    const convertirFecha = (fechaStr) => {
+      const [dia, mes, anio] = fechaStr.split("/").map(Number);
+      return new Date(anio, mes - 1, dia); // Mes empieza en 0 (enero)
+    };
+
+    // Filtrar y mapear alertas activas con fecha igual a hoy
+    const alertas = proyectos
+      .map((proyecto) => {
+        const alerta = proyecto._doc.alerta;
+        if (alerta?.activa && alerta.fecha) {
+          const fechaAlerta = convertirFecha(alerta.fecha); // Convertir la fecha recibida
+          const fechaAlertaSinHora = new Date(
+            fechaAlerta.getFullYear(),
+            fechaAlerta.getMonth(),
+            fechaAlerta.getDate()
+          );
+
+          if (fechaAlertaSinHora.getTime() === hoySinHora.getTime()) {
+            return {
+              id: proyecto._doc.id,
+              mensaje: alerta.mensaje,
+              fecha: alerta.fecha,
+            };
+          }
+        }
+        return null;
+      })
+      .filter((alerta) => alerta !== null);
+
+    res.json(alertas);
+  } catch (error) {
+    res.status(500).json({ message: "Error interno del servidor.", error });
+  }
+};
+
+export const updateAlerta = async (req, res) => {
+  try {
+    const proyecto = await Proyecto.findOne({ id: req.params.id });
+    if (!proyecto) {
+      return res.status(404).json({ message: "Proyecto no encontrado." });
+    }
+
+    if (!proyecto.alerta) {
+      proyecto.alerta = {};
+    }
+
+    // Actualizar propiedades del objeto alerta
+    proyecto.alerta = {
+      ...proyecto.alerta,
+      ...req.body,
+      activa: req.body.activa === false ? false : true, // Mantener true a menos que se indique false
+    };
+
+    await proyecto.save();
+    res.json(proyecto.alerta);
+  } catch (error) {
+    res.status(500).json({ message: "Error interno del servidor.", error });
+  }
+};
+
 // Generar un PDF con los datos de un proyecto
 
 export const generatePDF = async (req, res) => {

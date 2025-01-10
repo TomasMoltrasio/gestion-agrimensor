@@ -3,8 +3,8 @@
 import { useForm } from "@context/FormContext";
 import { Textarea, DatePicker } from "@nextui-org/react";
 import { I18nProvider } from "@react-aria/i18n";
-import { observaciones } from "@utils/data";
 import { parseDate } from "@internationalized/date";
+import { observaciones } from "@utils/data";
 import { ProyectoObservaciones } from "@tipos/index";
 
 export default function FormDatosObservaciones() {

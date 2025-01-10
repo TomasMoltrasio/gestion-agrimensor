@@ -26,7 +26,7 @@ import { SearchIcon } from "@icons/SearchIcon";
 import { AppleIcon } from "@icons/AppleIcon";
 import Link from "next/link";
 import { columns, statusOptions } from "@utils/data";
-import { capitalize, handleDuplicate } from "@utils/utils";
+import { capitalize } from "@utils/utils";
 import { Key } from "@react-types/shared";
 import { EyeIcon } from "./icons/EyeIcon";
 import { CalendarIcon } from "./icons/CalendarIcon";
@@ -38,8 +38,6 @@ import {
   INITIAL_VISIBLE_COLUMNS,
 } from "@utils/table";
 import { ProyectoTable } from "@tipos/index";
-import { VerticalDotsIcon } from "./icons/VerticalDotsIcon";
-import DuplicateIcon from "./icons/DuplicateIcon";
 
 export default function TableComponent() {
   const [filterValue, setFilterValue] = React.useState("");
