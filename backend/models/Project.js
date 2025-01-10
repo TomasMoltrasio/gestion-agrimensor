@@ -55,6 +55,7 @@ const ProyectoSchema = new Schema(
         pesos: { type: Number },
         dolares: { type: Number },
         tipoCambio: { type: Number },
+        observaciones: { type: String },
       },
       { _id: false },
     ],

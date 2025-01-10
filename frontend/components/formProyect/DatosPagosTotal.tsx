@@ -61,7 +61,7 @@ export default function DatosPagosTotal({
   ];
 
   return (
-    <div className="col-span-4 flex justify-end gap-x-8 items-center">
+    <div className="col-span-5 flex justify-end gap-x-8 items-center">
       {showPagos.map((pago, index) => (
         <div key={index} className="flex flex-col items-end justify-center">
           <span className="font-semibold">{pago.label}</span>

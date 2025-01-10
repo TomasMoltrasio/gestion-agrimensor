@@ -42,6 +42,7 @@ export type Proyecto = {
     pesos: string;
     dolares: string;
     tipoCambio: string;
+    observaciones: string;
   }[];
   datosCatastrales: {
     partido: number;

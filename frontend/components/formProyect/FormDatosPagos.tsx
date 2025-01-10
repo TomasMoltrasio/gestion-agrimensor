@@ -15,6 +15,7 @@ type Pago = {
   pesos: string;
   dolares: string;
   tipoCambio: string;
+  observaciones: string;
 };
 
 export default function FormDatosPagos() {
@@ -40,7 +41,7 @@ export default function FormDatosPagos() {
           <BtnExportarPagos id={formData?.id?.toString()} />
         </div>
       </header>
-      <div className="col-span-1 flex flex-col h-max md:grid md:grid-cols-4 gap-4 w-full">
+      <div className="col-span-1 flex flex-col h-max md:grid md:grid-cols-5 gap-4 w-full">
         {Array.from({ length: cantPagos }).map((_, index) => (
           <Fragment key={`${index}-fragment`}>
             <DatePicker
@@ -80,13 +81,22 @@ export default function FormDatosPagos() {
                 onUpdate(e.target.value, `pagos-${index}-dolares`)
               }
             />
+            <Input
+              label={`Observaciones de Pago ${index + 1}`}
+              type="string"
+              value={formData?.pagos?.[index]?.observaciones}
+              isDisabled={formData?.estado === "completado"}
+              onChange={(e) =>
+                onUpdate(e.target.value, `pagos-${index}-observaciones`)
+              }
+            />
           </Fragment>
         ))}
         <DatosPagosTotal
           pagos={formData?.pagos}
           presupuesto={formData?.presupuesto}
         />
-        <div className="col-start-1 col-span-2 md:col-span-1 md:col-start-4 flex items-center justify-end gap-x-4">
+        <div className="col-start-1 col-span-2 md:col-span-1 md:col-start-5 flex items-center justify-end gap-x-4">
           <Button
             color="danger"
             variant="ghost"
