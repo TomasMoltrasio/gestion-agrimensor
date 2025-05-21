@@ -2,6 +2,7 @@
 
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { useForm } from "@context/FormContext";
+import { priorityOptions } from "@utils/table";
 
 export default function FormDatosProyecto() {
   const profesionales = [
@@ -16,12 +17,6 @@ export default function FormDatosProyecto() {
     { label: "Amojonamiento", value: "amojonamiento" },
     { label: "Relevamiento", value: "relevamiento" },
     { label: "947", value: "947" },
-  ];
-
-  const prioridades = [
-    { label: "Alta", value: 1 },
-    { label: "Media", value: 2 },
-    { label: "Baja", value: 3 },
   ];
 
   const { formData, updateField } = useForm();
@@ -96,9 +91,9 @@ export default function FormDatosProyecto() {
           value={formData?.prioridad || ""}
           onChange={(e) => onUpdate(e.target.value, "prioridad")}
         >
-          {prioridades.map((prioridad) => (
-            <SelectItem key={prioridad.value} value={prioridad.value}>
-              {prioridad.label}
+          {priorityOptions.map((prioridad) => (
+            <SelectItem key={prioridad.uid} value={prioridad.uid}>
+              {prioridad.name}
             </SelectItem>
           ))}
         </Select>

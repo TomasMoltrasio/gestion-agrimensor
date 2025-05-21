@@ -7,14 +7,16 @@ export const statusColorMap: Record<string, ChipProps["color"]> = {
 
 export const priorityColorMap: Record<string, ChipProps["color"]> = {
   1: "danger",
-  2: "warning",
-  3: "primary",
+  2: "default",
+  3: "warning",
+  4: "primary",
 };
 
 export const priorityOptions = [
   { name: "Alta", uid: 1 },
-  { name: "Media", uid: 2 },
-  { name: "Baja", uid: 3 },
+  { name: "Cobrar", uid: 2 },
+  { name: "Media", uid: 3 },
+  { name: "Baja", uid: 4 },
 ];
 
 export const INITIAL_VISIBLE_COLUMNS = [

@@ -25,7 +25,7 @@ const ProyectoSchema = new Schema(
     direccion: { type: String },
     tipoTrabajo: { type: String },
     profesional: { type: String, enum: ["Tomás Portales", "Mariana López"] },
-    prioridad: { type: Number, enum: [1, 2, 3] },
+    prioridad: { type: Number, enum: [1, 2, 3, 4] },
     archivosIcloud: { type: String },
     estado: {
       type: String,
