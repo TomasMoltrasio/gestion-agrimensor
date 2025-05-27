@@ -129,7 +129,7 @@ router.put(
     body("prioridad")
       .optional()
       .isInt({ min: 1, max: 3 })
-      .withMessage("La prioridad debe ser un valor entre 1 y 3."),
+      .withMessage("La prioridad debe ser un valor entre 1 y 4."),
   ],
   updateProyecto
 );
