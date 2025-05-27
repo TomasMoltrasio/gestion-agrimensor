@@ -7,7 +7,7 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 export type ProyectoTable = {
   id: number;
   fecha: string;
-  prioridad: 1 | 2 | 3;
+  prioridad: 1 | 2 | 3 | 4;
   nombre: string;
   partido: number;
   partida: number;
@@ -30,7 +30,7 @@ export type Proyecto = {
   direccion: string;
   tipoTrabajo: string;
   profesional: "Tomás Portales" | "Mariana López";
-  prioridad: 1 | 2 | 3;
+  prioridad: 1 | 2 | 3 | 4;
   archivosIcloud: string;
   estado: "en curso" | "completado";
   presupuesto: {
