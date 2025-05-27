@@ -82,8 +82,8 @@ router.post(
       ),
     body("prioridad")
       .optional()
-      .isInt({ min: 1, max: 3 })
-      .withMessage("La prioridad debe ser un valor entre 1 y 3."),
+      .isInt({ min: 1, max: 4 })
+      .withMessage("La prioridad debe ser un valor entre 1 y 4."),
     body("presupuesto.total")
       .optional()
       .isFloat({ min: 0 })
