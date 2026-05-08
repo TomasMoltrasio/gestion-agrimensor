@@ -43,13 +43,13 @@ export default function TableComponent() {
   const [filterValue, setFilterValue] = React.useState("");
   const { Projects, loadAllProjects, isLoading } = useForm();
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
-    new Set([])
+    new Set([]),
   );
   const [visibleColumns, setVisibleColumns] = React.useState<Selection>(
-    new Set(INITIAL_VISIBLE_COLUMNS)
+    new Set(INITIAL_VISIBLE_COLUMNS),
   );
   const [statusFilter, setStatusFilter] = React.useState<Selection>(
-    new Set(["en curso"])
+    new Set(["en curso"]),
   );
   const [rowsPerPage, setRowsPerPage] = React.useState(Projects?.length || 100);
   React.useEffect(() => {
@@ -69,7 +69,7 @@ export default function TableComponent() {
     if (visibleColumns === "all") return columns;
 
     return columns.filter((column: { uid: Key }) =>
-      Array.from(visibleColumns).includes(column.uid)
+      Array.from(visibleColumns).includes(column.uid),
     );
   }, [visibleColumns]);
 
@@ -81,7 +81,7 @@ export default function TableComponent() {
         (user) =>
           user.nombre?.toLowerCase().includes(filterValue.toLowerCase()) ||
           user.partida?.toString().includes(filterValue) ||
-          user.contacto?.toLowerCase().includes(filterValue.toLowerCase())
+          user.contacto?.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
     if (
@@ -89,7 +89,7 @@ export default function TableComponent() {
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredProjects = filteredProjects.filter((user) =>
-        Array.from(statusFilter).includes(user.estado)
+        Array.from(statusFilter).includes(user.estado),
       );
     }
 
@@ -213,7 +213,7 @@ export default function TableComponent() {
             : `${cellValue}`;
       }
     },
-    []
+    [],
   );
 
   const onRowsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -278,7 +278,7 @@ export default function TableComponent() {
                     <DropdownItem key={status.uid} className="capitalize">
                       {capitalize(status.name)}
                     </DropdownItem>
-                  )
+                  ),
                 )}
               </DropdownMenu>
             </Dropdown>
@@ -304,7 +304,7 @@ export default function TableComponent() {
                     <DropdownItem key={column.uid} className="capitalize">
                       {capitalize(column.name)}
                     </DropdownItem>
-                  )
+                  ),
                 )}
               </DropdownMenu>
             </Dropdown>
@@ -384,7 +384,7 @@ export default function TableComponent() {
       bottomContentPlacement="outside"
       isStriped
       classNames={{
-        wrapper: "max-h-[382px]",
+        wrapper: "h-screen",
       }}
       selectionMode="none"
       sortDescriptor={sortDescriptor}

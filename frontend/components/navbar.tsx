@@ -9,7 +9,7 @@ import { ThemeSwitch } from "@components/theme-switch";
 
 export const Navbar = () => {
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar maxWidth="full" className="w-full px-6" position="sticky">
       <NavbarContent className="basis-0 sm:basis-1/3">
         <Link className="text-xl md:text-2xl font-medium" href="/">
           Meridiano Agrimensura
